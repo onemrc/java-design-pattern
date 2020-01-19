@@ -15,7 +15,6 @@ public class ThreadSafeDoubleCheckLocking {
             throw new IllegalStateException("Already initialized.");
         }
     }
-
     public static ThreadSafeDoubleCheckLocking getInstance() {
         ThreadSafeDoubleCheckLocking result = instance;
 
@@ -25,9 +24,10 @@ public class ThreadSafeDoubleCheckLocking {
             // 所以我们要互斥地锁定一个对象
             synchronized (ThreadSafeDoubleCheckLocking.class) {
                 // 再次将实例分配给局部变量，用来检测其是否被其他线程初始化
+                // 如果有，直接返回
                 result = instance;
 
-                // 如果有，直接返回
+
                 if (result == null) {
                     instance = result = new ThreadSafeDoubleCheckLocking();
                 }
